@@ -10,22 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#define WIDTH 1000
-#define HEIGHT 1000
+#define WIDTH 720
+#define HEIGHT 480
+#define MAX_ITER 1000
 
 #include "MLX42/MLX42.h"
 #include <stddef.h>
-
-/*
-typedef struct mlx
-{
-	void*		window;
-	void*		context;
-	int32_t		width;
-	int32_t		height;
-	double		delta_time;
-}	mlx_t;
-*/
 
 void	*ft_memset(void *b, int c, size_t len)
 {
@@ -42,27 +32,67 @@ void	*ft_memset(void *b, int c, size_t len)
 	return (b);
 }
 
-void noshitfromnoone(mlx_image_t *img, uint32_t colour, uint32_t interval)
+int		checkmandelbrot(double x, double y)
 {
-	uint32_t		x;
-	uint32_t		y;
-	int				offset;
+	double	imaginary_x = x;
+	double	imaginary_y = y;
+	double	tmp;
+	int		iterations = 0;
 
-	x = 0;
-	y = 0;
-	offset = 0;
-	while(x < img->width && y <= img->height)
+	while ((imaginary_x * imaginary_x + imaginary_y * imaginary_y) <= 4 && iterations < MAX_ITER)
 	{
-		mlx_put_pixel(img, x + offset, y, colour);
-		x += interval;
-		if (x + offset >= img->width)
+		tmp = (imaginary_x * imaginary_x) - (imaginary_y * imaginary_y) + x;
+		imaginary_y = 2 * (imaginary_x * imaginary_y) + y;
+		imaginary_x = tmp;
+		iterations++;
+	}
+	return (iterations);
+}
+
+
+//  julia set not working yet
+int		checkjulia(double x, double y)
+{
+	double	imaginary_x = x;
+	double	imaginary_y = y;
+	double	tmp;
+	int		iterations = 0;
+	double	cx = 0.56, cy = -0.156;
+
+
+	while ((imaginary_x * imaginary_x + imaginary_y * imaginary_y) <= 4 && iterations < MAX_ITER)
+	{
+		tmp = (imaginary_x * imaginary_x) - (imaginary_y * imaginary_y) + cx;
+		imaginary_y = 2 * (imaginary_x * imaginary_y) + cy;
+		imaginary_x = tmp;
+		iterations++;
+	}
+	return (iterations);
+}
+
+void	mandelbrot(mlx_image_t *img)
+{
+	double		x = 0, y = 0;
+	double		scaled_x, scaled_y;
+	int			iter;
+
+	
+	while (x <= img->width)
+	{
+		scaled_x = -2 + (x / WIDTH) * (1 - -2);
+		while (y <= img->height)
 		{
-			x = 0;
+			scaled_y = -1 + (y / HEIGHT) * (1 - -1);
+			iter = checkmandelbrot(scaled_x, scaled_y);
+			// iter = checkjulia(scaled_x, scaled_y);
+			if (iter == MAX_ITER)
+				mlx_put_pixel(img, x, y, 0x00000000);
+			else
+				mlx_put_pixel(img, x, y, 0xFFFFFFFF);
 			y++;
-			offset++;
-			if (offset >= interval)
-				offset = 0;
 		}
+		x++;
+		y = 0;
 	}
 }
 
@@ -70,19 +100,19 @@ int	main(void)
 {
 	mlx_t*			mlx = mlx_init(WIDTH, HEIGHT, "banaan", true);
 
-	mlx_image_t*	img = mlx_new_image(mlx, WIDTH / 4, HEIGHT / 4);
+	mlx_image_t*	img = mlx_new_image(mlx, WIDTH, HEIGHT);
 	if (!img)
 		return (-1);
-	mlx_image_to_window(mlx, img, 250, 250);
+	mlx_image_to_window(mlx, img, 0, 0);
 
-	uint32_t		colour = 0xFF00FFFF;
-	ft_memset(img->pixels, 255, img->width * img->height * 4);
+	// Fills in mandelbrot / julia:
+	mandelbrot(img);
 
-	noshitfromnoone(img, colour, 2);
-	// mlx_put_pixel(img, 10, 10, 0xFF00FFFF);
-	// mlx_put_pixel(img, 25, 25, 0xFFFFF00F);
+	// Checker pixel:
+	mlx_put_pixel(img, WIDTH / 2, HEIGHT / 2, 0xFF00FFFF);
 
 	mlx_loop(mlx);
 	mlx_terminate(mlx);
 	return (0);
 }
+
