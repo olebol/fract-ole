@@ -51,4 +51,6 @@ Module.symvers
 Mkfile.old
 dkms.conf
 
+# Custom
 *MLX42
+*ruben

@@ -2,11 +2,11 @@ NAME := fract-ol
 
 # Compiler parts
 CC := gcc
-HEADER := -I MLX42/include/
 INCL := -lglfw3 -framework Cocoa -framework OpenGL -framework IOKit
 CFLAGS := -Wall -Werror -Wextra -g -fsanitize=address
 
 SRC :=	fractol.c		\
+		fractals.c
 
 MLX := libmlx42.a
 
