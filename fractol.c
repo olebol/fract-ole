@@ -14,7 +14,16 @@
 
 // int captain_hook(mlx_key_data_t data, void *param)
 // {
+// 	int		iter;
+// 	const mlx_t *mlx = param;
+
+// 	iter = MAX_ITER;
 	
+// 	if (mlx_is_key_down(mlx, MLX_KEY_Z))
+// 	{
+// 		iter += 10;
+
+// 	}
 // }
 
 int	main(void)
@@ -24,13 +33,14 @@ int	main(void)
 	mlx_image_t*	img = mlx_new_image(mlx, WIDTH, HEIGHT);
 	if (!img)
 		return (-1);
-	mlx_image_to_window(mlx, img, 0, 0);
+	if (mlx_image_to_window(mlx, img, 0, 0) == -1)
+		return (-1);
 
 	// Fills in mandelbrot / julia:
 	mandelbrot(img);
 
 	// Key hook function
-	// mlx_key_hook(mlx, &captain_hook, NULL);
+	// mlx_key_hook(mlx, &captain_hook, mlx);
 
 	// Checker pixel:
 	mlx_put_pixel(img, WIDTH / 2, HEIGHT / 2, 0xFF00FFFF);
