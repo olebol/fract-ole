@@ -21,7 +21,7 @@ RESET	:= \033[0m
 all: ${NAME}
 
 ${NAME}: $(MLX) $(SRC)
-	@gcc $(SRC) $(MLX) $(HEADER) $(INCL) -o $(NAME)
+	@gcc $(SRC) $(CFLAGS) $(MLX) $(HEADER) $(INCL) -o $(NAME)
 	@echo "$(GREEN)$(BOLD)FRACT-OL Compiled$(RESET)"
 
 open: $(NAME)

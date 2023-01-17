@@ -12,41 +12,57 @@
 
 #include "fractol.h"
 
-// int captain_hook(mlx_key_data_t data, void *param)
-// {
-// 	int		iter;
-// 	const mlx_t *mlx = param;
+void	zoom(data_t *data)
+{
+	data->scale_x[0] *= 0.9;
+	data->scale_x[1] *= 0.9;
+	data->scale_y[0] *= 0.9;
+	data->scale_y[1] *= 0.9;
+}
 
-// 	iter = MAX_ITER;
-	
-// 	if (mlx_is_key_down(mlx, MLX_KEY_Z))
-// 	{
-// 		iter += 10;
+void	scaled(data_t *data)
+{
+	data->scale_x[0] = -3;
+	data->scale_x[1] = 2;
+	data->scale_y[0] = -1.5;
+	data->scale_y[1] = 1.5;
+}
 
-// 	}
-// }
-
+#include <stdio.h>
+#include <stdlib.h>
 int	main(void)
 {
-	mlx_t*			mlx = mlx_init(WIDTH, HEIGHT, "banaan", true);
+	data_t		*data = malloc(sizeof(data_t));
 
-	mlx_image_t*	img = mlx_new_image(mlx, WIDTH, HEIGHT);
-	if (!img)
+	// Initializes data
+	data->mlx = mlx_init(WIDTH, HEIGHT, "banaan", true);
+	if (!data->mlx)
 		return (-1);
-	if (mlx_image_to_window(mlx, img, 0, 0) == -1)
+
+	data->img = mlx_new_image(data->mlx, WIDTH, HEIGHT);
+	if (!data->img)
+		return (-1);
+
+	data->max_iterations = MAX_ITER;
+
+	scaled(data);
+	zoom(data);
+
+	if (mlx_image_to_window(data->mlx, data->img, 0, 0) == -1)
 		return (-1);
 
 	// Fills in mandelbrot / julia:
-	mandelbrot(img);
+	mandelbrot(data);
+
 
 	// Key hook function
 	// mlx_key_hook(mlx, &captain_hook, mlx);
 
 	// Checker pixel:
-	mlx_put_pixel(img, WIDTH / 2, HEIGHT / 2, 0xFF00FFFF);
+	mlx_put_pixel(data->img, WIDTH / 2, HEIGHT / 2, 0xFF00FFFF);
 
-	mlx_loop(mlx);
-	mlx_terminate(mlx);
+	mlx_loop(data->mlx);
+	mlx_terminate(data->mlx);
 	return (0);
 }
 
