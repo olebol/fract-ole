@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/16 17:40:20 by opelser       #+#    #+#                 */
-/*   Updated: 2023/01/19 20:39:34 by opelser       ########   odam.nl         */
+/*   Updated: 2023/01/19 20:41:54 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ uint32_t get_rgba(int r, int g, int b, int a)
 	return((r << 24) | (g << 16) | (b << 8) | a);
 }
 
-#include <stdio.h>
 void	mandelbrot(t_data *d)
 {
 	float		x = 0, y = 0;

@@ -6,7 +6,8 @@ INCL := -lglfw3 -framework Cocoa -framework OpenGL -framework IOKit
 CFLAGS := -Wall -Werror -Wextra -o3
 
 SRC :=	fractol.c		\
-		fractals.c
+		fractals.c		\
+		fractol_utils.c
 
 MLX := libmlx42.a
 

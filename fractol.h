@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/16 17:40:34 by opelser       #+#    #+#                 */
-/*   Updated: 2023/01/19 20:39:19 by opelser       ########   odam.nl         */
+/*   Updated: 2023/01/19 20:46:00 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,10 @@ typedef struct s_data {
 	float		scale_y[2];
 } t_data;
 
+int			callmandelbrot(t_data *data);
+void		captain_hook(mlx_key_data_t keydata, t_data *data);
+void		zoom(t_data *data, float scale);
+void		init(t_data *data);
 int			checkjulia(float x, float y, int max_iter);
 float		checkmandelbrot(float x, float y, float max_iter);
 void		mandelbrot(t_data *data);
