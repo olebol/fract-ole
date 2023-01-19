@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/16 17:40:20 by opelser       #+#    #+#                 */
-/*   Updated: 2023/01/19 20:41:54 by opelser       ########   odam.nl         */
+/*   Updated: 2023/01/19 21:58:55 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int		checkjulia(float x, float y, int max_iter)
 	return (iterations);
 }
 
-float		checkmandelbrot(float x, float y, float max_iter)
+float		checkmandelbrot(float x, float y, int max_iter)
 {
 	float	imaginary_x = x;
 	float	imaginary_y = y;
@@ -47,30 +47,33 @@ float		checkmandelbrot(float x, float y, float max_iter)
 	return (iterations);
 }
 
-uint32_t get_rgba(int r, int g, int b, int a)
+uint32_t	get_rgba(int r, int g, int b, int a)
 {
-	return((r << 24) | (g << 16) | (b << 8) | a);
+	return ((r << 24) | (g << 16) | (b << 8) | a);
 }
 
 void	mandelbrot(t_data *d)
 {
-	float		x = 0, y = 0;
-	float		scaled_x, scaled_y;
+	float		x;
+	float		y;
+	float		scaled[2];
 	float		iter;
 	int			colour;
 
+	x = 0;
+	y = 0;
 	while (x < WIDTH)
 	{
-		scaled_x = d->scale_x[0] + (x / WIDTH) * (d->scale_x[1] - d->scale_x[0]);
+		scaled[0] = d->x[0] + (x / WIDTH) * (d->x[1] - d->x[0]);
 		while (y < HEIGHT)
 		{
-			scaled_y = d->scale_y[0] + (y / HEIGHT) * (d->scale_y[1] - d->scale_y[0]);
-			// iter = checkmandelbrot(scaled_x, scaled_y, d->max_iterations);
-			iter = checkjulia(scaled_x, scaled_y, d->max_iterations);
-			if (iter == d->max_iterations)
+			scaled[1] = d->y[0] + (y / HEIGHT) * (d->y[1] - d->y[0]);
+			// iter = checkmandelbrot(scaled[0], scaled[1], d->iter);
+			iter = checkjulia(scaled[0], scaled[1], d->iter);
+			if (iter == d->iter)
 				colour = 0xFF;
 			else
-				colour = get_rgba(0xFF, 0x00, 0xFF, (255 * iter / d->max_iterations));
+				colour = get_rgba(0xFF, 0x00, 0xFF, (255 * iter / d->iter));
 			mlx_put_pixel(d->img, x, y, colour);
 			y++;
 		}
