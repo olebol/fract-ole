@@ -6,21 +6,21 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/16 17:40:20 by opelser       #+#    #+#                 */
-/*   Updated: 2023/01/17 22:36:42 by opelser       ########   odam.nl         */
+/*   Updated: 2023/01/19 20:39:34 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-int		checkjulia(double x, double y)
+int		checkjulia(float x, float y, int max_iter)
 {
-	double	imaginary_x = x;
-	double	imaginary_y = y;
-	double	tmp;
+	float	imaginary_x = x;
+	float	imaginary_y = y;
+	float	tmp;
 	int		iterations = 0;
-	double	cx = 0.150, cy = 0.635;
+	float	cx = 0.150, cy = 0.635;
 
-	while ((imaginary_x * imaginary_x + imaginary_y * imaginary_y) <= 4 && iterations < MAX_ITER)
+	while ((imaginary_x * imaginary_x + imaginary_y * imaginary_y) <= 4 && iterations < max_iter)
 	{
 		tmp = (imaginary_x * imaginary_x) - (imaginary_y * imaginary_y) + cx;
 		imaginary_y = 2 * (imaginary_x * imaginary_y) + cy;
@@ -30,14 +30,14 @@ int		checkjulia(double x, double y)
 	return (iterations);
 }
 
-double		checkmandelbrot(double x, double y)
+float		checkmandelbrot(float x, float y, float max_iter)
 {
-	double	imaginary_x = x;
-	double	imaginary_y = y;
-	double	tmp;
-	double	iterations = 0;
+	float	imaginary_x = x;
+	float	imaginary_y = y;
+	float	tmp;
+	float	iterations = 0;
 
-	while ((imaginary_x * imaginary_x + imaginary_y * imaginary_y) <= 4 && iterations < MAX_ITER)
+	while ((imaginary_x * imaginary_x + imaginary_y * imaginary_y) <= 4 && iterations < max_iter)
 	{
 		tmp = (imaginary_x * imaginary_x) - (imaginary_y * imaginary_y) + x;
 		imaginary_y = 2 * (imaginary_x * imaginary_y) + y;
@@ -49,16 +49,16 @@ double		checkmandelbrot(double x, double y)
 
 uint32_t get_rgba(int r, int g, int b, int a)
 {
-	return((r << 24) + (g << 16) + (b << 8) + a);
+	return((r << 24) | (g << 16) | (b << 8) | a);
 }
 
 #include <stdio.h>
-void	mandelbrot(data_t *d)
+void	mandelbrot(t_data *d)
 {
-	double		x = 0, y = 0;
-	double		scaled_x, scaled_y;
-	double		iter;
-	double		colour;
+	float		x = 0, y = 0;
+	float		scaled_x, scaled_y;
+	float		iter;
+	int			colour;
 
 	while (x < WIDTH)
 	{
@@ -66,12 +66,12 @@ void	mandelbrot(data_t *d)
 		while (y < HEIGHT)
 		{
 			scaled_y = d->scale_y[0] + (y / HEIGHT) * (d->scale_y[1] - d->scale_y[0]);
-			iter = checkmandelbrot(scaled_x, scaled_y);
-			// iter = checkjulia(scaled_x, scaled_y);
-			if (iter == MAX_ITER)
+			// iter = checkmandelbrot(scaled_x, scaled_y, d->max_iterations);
+			iter = checkjulia(scaled_x, scaled_y, d->max_iterations);
+			if (iter == d->max_iterations)
 				colour = 0xFF;
 			else
-				colour = get_rgba(0xFF, 0xFF, 0x00, (255 * iter / MAX_ITER) * 2);
+				colour = get_rgba(0xFF, 0x00, 0xFF, (255 * iter / d->max_iterations));
 			mlx_put_pixel(d->img, x, y, colour);
 			y++;
 		}

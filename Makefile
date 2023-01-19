@@ -3,7 +3,7 @@ NAME := fract-ol
 # Compiler parts
 CC := gcc
 INCL := -lglfw3 -framework Cocoa -framework OpenGL -framework IOKit
-CFLAGS := -Wall -Werror -Wextra -g -fsanitize=address
+CFLAGS := -Wall -Werror -Wextra -o3
 
 SRC :=	fractol.c		\
 		fractals.c
