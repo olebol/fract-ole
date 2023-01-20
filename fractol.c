@@ -52,12 +52,12 @@ int	main(void)
 		return (-1);
 	data->mlx = mlx_init(WIDTH, HEIGHT, "banaan", true);
 	if (!data->mlx)
-		return (-1);
+		return ((free(data), -1));
 	data->img = mlx_new_image(data->mlx, WIDTH, HEIGHT);
 	if (!data->img)
-		return (-1);
+		return ((free(data), -1));
 	if (mlx_image_to_window(data->mlx, data->img, 0, 0) == -1)
-		return (-1);
+		return ((free(data), -1));
 	init(data);
 	mlx_put_pixel(data->img, WIDTH / 2, HEIGHT / 2, 0xFF00FFFF);
 	mlx_loop(data->mlx);

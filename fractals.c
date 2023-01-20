@@ -14,37 +14,39 @@
 
 int		checkjulia(float x, float y, int max_iter)
 {
-	float	imaginary_x = x;
-	float	imaginary_y = y;
 	float	tmp;
-	int		iterations = 0;
+	int		iter;
 	float	cx = 0.150, cy = 0.635;
 
-	while ((imaginary_x * imaginary_x + imaginary_y * imaginary_y) <= 4 && iterations < max_iter)
+	iter = 0;
+	while ((x * x + y * y) <= 4 && iter < max_iter)
 	{
-		tmp = (imaginary_x * imaginary_x) - (imaginary_y * imaginary_y) + cx;
-		imaginary_y = 2 * (imaginary_x * imaginary_y) + cy;
-		imaginary_x = tmp;
-		iterations++;
+		tmp = (x * x) - (y * y) + cx;
+		y = 2 * (x * y) + cy;
+		x = tmp;
+		iter++;
 	}
-	return (iterations);
+	return (iter);
 }
 
-float		checkmandelbrot(float x, float y, int max_iter)
+float		checkmandelbrot(float orig_x, float orig_y, int max_iter)
 {
-	float	imaginary_x = x;
-	float	imaginary_y = y;
+	float	x;
+	float	y;
 	float	tmp;
-	float	iterations = 0;
+	float	iter;
 
-	while ((imaginary_x * imaginary_x + imaginary_y * imaginary_y) <= 4 && iterations < max_iter)
+	y = orig_y;
+	x = orig_x;
+	iter = 0;
+	while ((x * x + y * y) <= 4 && iter < max_iter)
 	{
-		tmp = (imaginary_x * imaginary_x) - (imaginary_y * imaginary_y) + x;
-		imaginary_y = 2 * (imaginary_x * imaginary_y) + y;
-		imaginary_x = tmp;
-		iterations++;
+		tmp = (x * x) - (y * y) + orig_x;
+		y = 2 * (x * y) + orig_y;
+		x = tmp;
+		iter++;
 	}
-	return (iterations);
+	return (iter);
 }
 
 uint32_t	get_rgba(int r, int g, int b, int a)
@@ -73,7 +75,7 @@ void	mandelbrot(t_data *d)
 			if (iter == d->iter)
 				colour = 0xFF;
 			else
-				colour = get_rgba(0xFF, 0x00, 0xFF, (255 * iter / d->iter));
+				colour = get_rgba(0xFF, 0xFF, 0xFF, (255 * iter / d->iter));
 			mlx_put_pixel(d->img, x, y, colour);
 			y++;
 		}
