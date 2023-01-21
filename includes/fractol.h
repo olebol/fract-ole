@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/16 17:40:34 by opelser       #+#    #+#                 */
-/*   Updated: 2023/01/21 15:26:56 by opelser       ########   odam.nl         */
+/*   Updated: 2023/01/21 15:30:46 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@
 # include "MLX42/include/MLX42/MLX42.h"
 # include <stddef.h>
 
-#include <stdio.h> // !!! REMOVE !!! for printf
-#include <stdlib.h> // for malloc
-#include <unistd.h> // for write (only in fractol.c?)
+# include <stdio.h> // !!! REMOVE !!! for printf
+# include <stdlib.h> // for malloc
+# include <unistd.h> // for write (only in fractol.c?)
 
 typedef struct s_data {
 	mlx_t		*mlx; // graphics library initialized
@@ -32,7 +32,7 @@ typedef struct s_data {
 	float		x[2]; // projected / scaled x
 	float		y[2]; // projected / scaled y
 	float		julia[2]; // XY location for fixed julia point
-} t_data;
+}	t_data;
 
 int			make_fractal(t_data *data);
 void		captain_hook(mlx_key_data_t keydata, t_data *data);
