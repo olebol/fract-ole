@@ -33,7 +33,7 @@ all: ${NAME}
 
 $(NAME): $(MLX) $(OBJ)
 	@echo "$(YELLOW)$(BOLD)Compiling FRACT-OL...$(RESET)"
-	gcc $(OBJ) $(CFLAGS) $(MLX) $(INCL_WINDOWS) -o $(NAME)
+	@gcc $(OBJ) $(CFLAGS) $(MLX) $(INCL_WINDOWS) -o $(NAME)
 	@echo "$(GREEN)$(BOLD)FRACT-OL Compiled$(RESET)"
 
 $(MLX):
@@ -42,13 +42,13 @@ $(MLX):
 	@echo "$(GREEN)$(BOLD)MLX42 Compiled$(RESET)"
 
 $(OBJ_DIR)/%.o: src/%.c
-	mkdir -p obj
-	gcc $(CFLAGS) -I $(INC_DIR) -c $< -o $@
+	@mkdir -p obj
+	@gcc $(CFLAGS) -I $(INC_DIR) -c $< -o $@
 
 open: $(NAME)
 	@echo "$(YELLOW)$(BOLD)Opening window...$(RESET)"
 	@echo -n "$(RED)"
-	@./$(NAME)
+	@./$(NAME) 1
 	@echo "$(GREEN)$(BOLD)Window closed$(RESET)"
 
 norminette:

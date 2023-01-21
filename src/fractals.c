@@ -16,7 +16,6 @@ int	checkjulia(t_data *d, float x, float y)
 {
 	float	tmp;
 	int		iter;
-	
 
 	iter = 0;
 	while ((x * x + y * y) <= 4 && iter < d->iter)
@@ -70,7 +69,35 @@ void	mandelbrot(t_data *d)
 		while (y < HEIGHT)
 		{
 			scaled[1] = d->y[0] + (y / HEIGHT) * (d->y[1] - d->y[0]);
-			// iter = checkmandelbrot(scaled[0], scaled[1], d->iter);
+			iter = checkmandelbrot(scaled[0], scaled[1], d->iter);
+			if (iter == d->iter)
+				colour = 0xFF;
+			else
+				colour = get_rgba(0xFF, 0xFF, 0xFF, (255 * iter / d->iter));
+			mlx_put_pixel(d->img, x, y, colour);
+			y++;
+		}
+		x++;
+		y = 0;
+	}
+}
+
+void	julia(t_data *d)
+{
+	float		x;
+	float		y;
+	float		scaled[2];
+	float		iter;
+	int			colour;
+
+	x = 0;
+	y = 0;
+	while (x < WIDTH)
+	{
+		scaled[0] = d->x[0] + (x / WIDTH) * (d->x[1] - d->x[0]);
+		while (y < HEIGHT)
+		{
+			scaled[1] = d->y[0] + (y / HEIGHT) * (d->y[1] - d->y[0]);
 			iter = checkjulia(d, scaled[0], scaled[1]);
 			if (iter == d->iter)
 				colour = 0xFF;

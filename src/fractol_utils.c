@@ -12,9 +12,12 @@
 
 #include "fractol.h"
 
-int	callmandelbrot(t_data *data)
+int	make_fractal(t_data *data)
 {
-	mandelbrot(data);
+	if (data->frac == 1)
+		mandelbrot(data);
+	else if (data->frac == 2)
+		julia(data);
 	mlx_key_hook(data->mlx, (mlx_keyfunc) captain_hook, data);
 	return (0);
 }
@@ -25,8 +28,7 @@ void	zoom(t_data *data, float scale)
 	data->x[1] *= scale;
 	data->y[0] *= scale;
 	data->y[1] *= scale;
-	// printf("%f\t%f\n%f\t%f\n\n", data->x[0], data->x[1], data->y[0], data->y[1]);
-	callmandelbrot(data);
+	make_fractal(data);
 }
 
 void	init(t_data *data)
@@ -38,19 +40,19 @@ void	init(t_data *data)
 	data->y[1] = 1.5;
 	data->julia[0] = 0.150;
 	data->julia[1] = 0.635;
-	callmandelbrot(data);
+	make_fractal(data);
 }
 
 void	move_x(t_data *data, float amount)
 {
 	data->x[0] += amount;
 	data->x[1] += amount;
-	callmandelbrot(data);
+	make_fractal(data);
 }
 
 void	move_y(t_data *data, float amount)
 {
 	data->y[0] += amount;
 	data->y[1] += amount;
-	callmandelbrot(data);
+	make_fractal(data);
 }
