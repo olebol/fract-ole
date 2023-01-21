@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/16 17:40:34 by opelser       #+#    #+#                 */
-/*   Updated: 2023/01/19 22:53:22 by opelser       ########   odam.nl         */
+/*   Updated: 2023/01/21 15:26:56 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ typedef struct s_data {
 	mlx_image_t	*img; // image thats on my screen
 	int			frac; // Specifies the fractal
 	long		iter; // max iterations
-	float		x[2]; // p rojected / scaled x
+	float		x[2]; // projected / scaled x
 	float		y[2]; // projected / scaled y
-	float		julia[2];
+	float		julia[2]; // XY location for fixed julia point
 } t_data;
 
 int			make_fractal(t_data *data);
