@@ -36,6 +36,8 @@ void	init(t_data *data)
 	data->x[1] = 2;
 	data->y[0] = -1.5;
 	data->y[1] = 1.5;
+	data->julia[0] = 0.150;
+	data->julia[1] = 0.635;
 	callmandelbrot(data);
 }
 

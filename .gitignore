@@ -54,3 +54,4 @@ dkms.conf
 # Custom
 *MLX42
 *ruben
+*.vscode

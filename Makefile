@@ -1,15 +1,25 @@
 NAME := fract-ol
 
-# Compiler parts
+# Directories
+OBJ_DIR := obj
+SRC_DIR := src
+MLX_DIR := MLX42
+INC_DIR := includes
+
+# Compiler flags
 CC := gcc
+INCL_WINDOWS := -ldl -lglfw -pthread -lm
 INCL := -lglfw3 -framework Cocoa -framework OpenGL -framework IOKit
 CFLAGS := -Wall -Werror -Wextra -o3
 
-SRC :=	fractol.c		\
-		fractals.c		\
-		fractol_utils.c
+# files
+SRC_FILES :=	fractol.c		\
+				fractals.c		\
+				fractol_utils.c
 
-MLX := libmlx42.a
+SRC := $(addprefix $(SRC_DIR)/, $(SRC_FILES))
+OBJ := ${addprefix ${OBJ_DIR}/, ${SRC_FILES:.c=.o}}
+MLX := $(MLX_DIR)/libmlx42.a
 
 # Colours
 GREEN	:= \033[32;1m
@@ -21,31 +31,38 @@ RESET	:= \033[0m
 # Rules
 all: ${NAME}
 
-${NAME}: $(MLX) $(SRC)
-	@gcc $(SRC) $(CFLAGS) $(MLX) $(HEADER) $(INCL) -o $(NAME)
+${NAME}: $(MLX) $(OBJ)
+	@gcc $(OBJ) $(CFLAGS) $(MLX) $(INCL_WINDOWS) -o $(NAME)
 	@echo "$(GREEN)$(BOLD)FRACT-OL Compiled$(RESET)"
+
+$(MLX):
+	@$(MAKE) -C $(MLX_DIR)
+	@echo "$(GREEN)$(BOLD)MLX42 Compiled$(RESET)"
+
+$(OBJ_DIR)/%.o: src/%.c ${OBJ_DIR}
+	@gcc $(CFLAGS) -I $(INC_DIR) -c $< -o $@
+
+$(OBJ_DIR):
+	@mkdir -p obj
 
 open: $(NAME)
 	@echo "$(YELLOW)$(BOLD)Opening window...$(RESET)"
+	@echo -n "$(RED)"
 	@./$(NAME)
 	@echo "$(GREEN)$(BOLD)Window closed$(RESET)"
-
-# Makes libmlx42.a
-$(MLX):
-	@$(MAKE) -C MLX42/
-	@mv ./MLX42/$(MLX) .
-	@echo "$(GREEN)$(BOLD)MLX42 Compiled$(RESET)"
 
 norminette:
 	@norminette $(SRC)
 
 clean:
 	@echo "$(RED)$(BOLD)Cleaning...$(RESET)"
-	@rm -rf ${NAME}
+	@rm -rf $(OBJ)
+	@rm -rf $(OBJ_DIR)
 
 fclean: clean
 	@rm -rf $(MLX)
+	@rm -rf ${NAME}
 
 re: fclean ${NAME}
 
-.PHONY: all norminette clean fclean re 
+.PHONY: all open norminette clean fclean re 

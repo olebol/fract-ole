@@ -12,24 +12,24 @@
 
 #include "fractol.h"
 
-int		checkjulia(float x, float y, int max_iter)
+int	checkjulia(t_data *d, float x, float y)
 {
 	float	tmp;
 	int		iter;
-	float	cx = 0.150, cy = 0.635;
+	
 
 	iter = 0;
-	while ((x * x + y * y) <= 4 && iter < max_iter)
+	while ((x * x + y * y) <= 4 && iter < d->iter)
 	{
-		tmp = (x * x) - (y * y) + cx;
-		y = 2 * (x * y) + cy;
+		tmp = (x * x) - (y * y) + d->julia[0];
+		y = 2 * (x * y) + d->julia[1];
 		x = tmp;
 		iter++;
 	}
 	return (iter);
 }
 
-float		checkmandelbrot(float orig_x, float orig_y, int max_iter)
+float	checkmandelbrot(float orig_x, float orig_y, int max_iter)
 {
 	float	x;
 	float	y;
@@ -71,7 +71,7 @@ void	mandelbrot(t_data *d)
 		{
 			scaled[1] = d->y[0] + (y / HEIGHT) * (d->y[1] - d->y[0]);
 			// iter = checkmandelbrot(scaled[0], scaled[1], d->iter);
-			iter = checkjulia(scaled[0], scaled[1], d->iter);
+			iter = checkjulia(d, scaled[0], scaled[1]);
 			if (iter == d->iter)
 				colour = 0xFF;
 			else
