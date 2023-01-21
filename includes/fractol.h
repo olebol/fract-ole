@@ -17,7 +17,7 @@
 # define HEIGHT 720
 # define MAX_ITER 50
 
-# include "../MLX42/include/MLX42/MLX42.h"
+# include "MLX42/include/MLX42/MLX42.h"
 # include <stddef.h>
 
 #include <stdio.h>

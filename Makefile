@@ -1,10 +1,10 @@
 NAME := fract-ol
 
 # Directories
+INC_DIR := includes
 OBJ_DIR := obj
 SRC_DIR := src
-MLX_DIR := MLX42
-INC_DIR := includes
+MLX_DIR := $(INC_DIR)/MLX42
 
 # Compiler flags
 CC := gcc
