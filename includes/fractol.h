@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/16 17:40:34 by opelser       #+#    #+#                 */
-/*   Updated: 2023/01/21 15:30:46 by opelser       ########   odam.nl         */
+/*   Updated: 2023/01/21 17:56:47 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # define WIDTH 1080
 # define HEIGHT 720
 # define MAX_ITER 50
+# define RED "\e[0;31m"
+# define RESET "\e[0m"
 
 # include "MLX42/include/MLX42/MLX42.h"
 # include <stddef.h>

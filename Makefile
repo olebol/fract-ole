@@ -15,7 +15,8 @@ CFLAGS := -Wall -Werror -Wextra -o3
 # files
 SRC_FILES :=	fractol.c		\
 				fractals.c		\
-				fractol_utils.c
+				fractol_utils.c	\
+				hook.c
 
 SRC := $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 OBJ := ${addprefix ${OBJ_DIR}/, ${SRC_FILES:.c=.o}}
