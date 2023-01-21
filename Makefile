@@ -31,19 +31,19 @@ RESET	:= \033[0m
 # Rules
 all: ${NAME}
 
-${NAME}: $(MLX) $(OBJ)
-	@gcc $(OBJ) $(CFLAGS) $(MLX) $(INCL_WINDOWS) -o $(NAME)
+$(NAME): $(MLX) $(OBJ)
+	@echo "$(YELLOW)$(BOLD)Compiling FRACT-OL...$(RESET)"
+	gcc $(OBJ) $(CFLAGS) $(MLX) $(INCL_WINDOWS) -o $(NAME)
 	@echo "$(GREEN)$(BOLD)FRACT-OL Compiled$(RESET)"
 
 $(MLX):
-	@$(MAKE) -C $(MLX_DIR)
+	@echo "$(YELLOW)$(BOLD)Compiling MLX42...$(RESET)"
+	@$(MAKE) -s -C $(MLX_DIR)
 	@echo "$(GREEN)$(BOLD)MLX42 Compiled$(RESET)"
 
-$(OBJ_DIR)/%.o: src/%.c ${OBJ_DIR}
-	@gcc $(CFLAGS) -I $(INC_DIR) -c $< -o $@
-
-$(OBJ_DIR):
-	@mkdir -p obj
+$(OBJ_DIR)/%.o: src/%.c
+	mkdir -p obj
+	gcc $(CFLAGS) -I $(INC_DIR) -c $< -o $@
 
 open: $(NAME)
 	@echo "$(YELLOW)$(BOLD)Opening window...$(RESET)"
@@ -56,11 +56,12 @@ norminette:
 
 clean:
 	@echo "$(RED)$(BOLD)Cleaning...$(RESET)"
+	@$(MAKE) clean -sC $(MLX_DIR)
 	@rm -rf $(OBJ)
 	@rm -rf $(OBJ_DIR)
 
 fclean: clean
-	@rm -rf $(MLX)
+	@$(MAKE) fclean -sC $(MLX_DIR)
 	@rm -rf ${NAME}
 
 re: fclean ${NAME}
