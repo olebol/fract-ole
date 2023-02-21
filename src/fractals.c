@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/16 17:40:20 by opelser       #+#    #+#                 */
-/*   Updated: 2023/01/19 21:58:55 by opelser       ########   odam.nl         */
+/*   Updated: 2023/02/21 22:50:20 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,16 @@ float	checkmandelbrot(float orig_x, float orig_y, int max_iter)
 	return (iter);
 }
 
-uint32_t	get_rgba(int r, int g, int b, int a)
+uint32_t	get_rgba(t_data *d, float iter)
 {
-	return ((r << 24) | (g << 16) | (b << 8) | a);
+	uint32_t	colour;
+	int			r = (d->colour[0] * iter);
+	int			g = (d->colour[1] * iter);
+	int			b = (d->colour[2] * iter);
+	int			a = 255;
+
+	colour = (r << 24) | (g << 16) | (b << 8) | a;
+	return (colour);
 }
 
 void	mandelbrot(t_data *d)
@@ -73,7 +80,7 @@ void	mandelbrot(t_data *d)
 			if (iter == d->iter)
 				colour = 0xFF;
 			else
-				colour = get_rgba(0xFF, 0xFF, 0xFF, (255 * iter / d->iter));
+				colour = get_rgba(d, iter);
 			mlx_put_pixel(d->img, x, y, colour);
 			y++;
 		}
@@ -102,7 +109,7 @@ void	julia(t_data *d)
 			if (iter == d->iter)
 				colour = 0xFF;
 			else
-				colour = get_rgba(0xFF, 0xFF, 0xFF, (255 * iter / d->iter));
+				colour = get_rgba(d, iter);
 			mlx_put_pixel(d->img, x, y, colour);
 			y++;
 		}

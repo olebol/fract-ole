@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/10 22:10:43 by opelser       #+#    #+#                 */
-/*   Updated: 2023/01/21 15:37:24 by opelser       ########   odam.nl         */
+/*   Updated: 2023/02/21 22:47:21 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ int	main(int argc, char **argv)
 		return ((free(data), -1));
 	init(data);
 	mlx_loop(data->mlx);
+	mlx_close_window(data->mlx);
 	mlx_terminate(data->mlx);
+	free(data);
 	return (0);
 }

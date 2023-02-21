@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/19 20:44:05 by opelser       #+#    #+#                 */
-/*   Updated: 2023/02/20 19:39:12 by opelser       ########   odam.nl         */
+/*   Updated: 2023/02/21 23:36:28 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,9 @@ void	init(t_data *data)
 	data->y[1] = 1.5;
 	data->julia[0] = 0.150;
 	data->julia[1] = 0.635;
+	data->colour[0] = 2;
+	data->colour[1] = 4;
+	data->colour[2] = 6;
 	make_fractal(data);
 }
 

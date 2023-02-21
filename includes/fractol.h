@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/16 17:40:34 by opelser       #+#    #+#                 */
-/*   Updated: 2023/01/21 17:56:47 by opelser       ########   odam.nl         */
+/*   Updated: 2023/02/21 22:47:26 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct s_data {
 	float		x[2]; // projected / scaled x
 	float		y[2]; // projected / scaled y
 	float		julia[2]; // XY location for fixed julia point
+	int			colour[3];
 }	t_data;
 
 int			make_fractal(t_data *data);
