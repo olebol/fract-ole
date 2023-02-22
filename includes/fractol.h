@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/16 17:40:34 by opelser       #+#    #+#                 */
-/*   Updated: 2023/02/21 22:47:26 by opelser       ########   odam.nl         */
+/*   Updated: 2023/02/22 23:38:22 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,12 @@ typedef struct s_data {
 	float		y[2]; // projected / scaled y
 	float		julia[2]; // XY location for fixed julia point
 	int			colour[3];
+	int32_t		mouse[2];
 }	t_data;
 
 int			make_fractal(t_data *data);
 void		captain_hook(mlx_key_data_t keydata, t_data *data);
-void		zoom(t_data *data, float scale);
+void		zoom(double xdelta, double ydelta, t_data *data);
 void		init(t_data *data);
 void		move_x(t_data *data, float amount);
 void		move_y(t_data *data, float amount);

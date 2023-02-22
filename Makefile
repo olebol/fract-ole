@@ -10,16 +10,20 @@ MLX_DIR := $(INC_DIR)/MLX42
 CC := gcc
 INCL_WINDOWS := -ldl -lglfw -pthread -lm
 INCL := -lglfw3 -framework Cocoa -framework OpenGL -framework IOKit
-CFLAGS := -Wall -Werror -Wextra -o3
+CFLAGS := -Wall -Werror -Wextra -Ofast
 
-# files
-SRC_FILES :=	fractol.c		\
+# Includes
+HDR_FILES :=	fractol.h
+
+# Files
+SRC_FILES :=	main.c			\
 				fractals.c		\
 				fractol_utils.c	\
 				hook.c
 
 SRC := $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 OBJ := ${addprefix ${OBJ_DIR}/, ${SRC_FILES:.c=.o}}
+HDR := $(addprefix $(INC_DIR)/, $(HDR_FILES))
 MLX := $(MLX_DIR)/libmlx42.a
 
 # Colours
@@ -34,7 +38,7 @@ all: ${NAME}
 
 $(NAME): $(MLX) $(OBJ)
 	@echo "$(YELLOW)$(BOLD)Compiling FRACT-OL...$(RESET)"
-	@gcc $(OBJ) $(CFLAGS) $(MLX) $(INCL_WINDOWS) -o $(NAME)
+	@gcc $(OBJ) $(CFLAGS) $(MLX) $(INCL) -o $(NAME)
 	@echo "$(GREEN)$(BOLD)FRACT-OL Compiled$(RESET)"
 
 $(MLX):
@@ -42,13 +46,12 @@ $(MLX):
 	@$(MAKE) -s -C $(MLX_DIR)
 	@echo "$(GREEN)$(BOLD)MLX42 Compiled$(RESET)"
 
-$(OBJ_DIR)/%.o: src/%.c
+$(OBJ_DIR)/%.o: src/%.c $(HDR)
 	@mkdir -p obj
 	@gcc $(CFLAGS) -I $(INC_DIR) -c $< -o $@
 
 open: $(NAME)
 	@echo "$(YELLOW)$(BOLD)Opening window...$(RESET)"
-	@echo -n "$(RED)"
 	@./$(NAME) 1
 	@echo "$(GREEN)$(BOLD)Window closed$(RESET)"
 
@@ -67,4 +70,4 @@ fclean: clean
 
 re: fclean ${NAME}
 
-.PHONY: all open norminette clean fclean re 
+.PHONY: all open norminette clean fclean re

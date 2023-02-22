@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/16 17:40:20 by opelser       #+#    #+#                 */
-/*   Updated: 2023/02/21 22:50:20 by opelser       ########   odam.nl         */
+/*   Updated: 2023/02/22 23:37:06 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,10 @@ float	checkmandelbrot(float orig_x, float orig_y, int max_iter)
 uint32_t	get_rgba(t_data *d, float iter)
 {
 	uint32_t	colour;
-	int			r = (d->colour[0] * iter);
-	int			g = (d->colour[1] * iter);
-	int			b = (d->colour[2] * iter);
-	int			a = 255;
+	const int	r = (d->colour[0] * iter);
+	const int	g = (d->colour[1] * iter);
+	const int	b = (d->colour[2] * iter);
+	const int	a = 255;
 
 	colour = (r << 24) | (g << 16) | (b << 8) | a;
 	return (colour);
