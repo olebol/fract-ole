@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/21 15:32:55 by opelser       #+#    #+#                 */
-/*   Updated: 2023/02/22 23:25:46 by opelser       ########   odam.nl         */
+/*   Updated: 2023/02/22 23:43:58 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ void	captain_hook(mlx_key_data_t keydata, t_data *data)
 		data->julia[1] = data->y[0]
 			+ (float) data->mouse[1] / (float) HEIGHT
 			* (data->y[1] - data->y[0]);
-		printf("(%f, %f)\n", data->julia[0], data->julia[1]);
 		make_fractal(data);
 	}
 	if (mlx_is_key_down(data->mlx, MLX_KEY_ESCAPE))
