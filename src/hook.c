@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/21 15:32:55 by opelser       #+#    #+#                 */
-/*   Updated: 2023/02/22 23:43:58 by opelser       ########   odam.nl         */
+/*   Updated: 2023/02/22 23:54:23 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,13 @@ void	extra_functionality(t_data *data)
 	if (mlx_is_key_down(data->mlx, MLX_KEY_2))
 	{
 		data->frac = 2;
+		make_fractal(data);
+	}
+	if (mlx_is_key_down(data->mlx, MLX_KEY_C))
+	{
+		data->colour[0] += 5;
+		data->colour[1] += 7;
+		data->colour[2] += 2;
 		make_fractal(data);
 	}
 }
