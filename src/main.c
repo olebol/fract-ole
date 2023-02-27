@@ -1,16 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   fractol.c                                          :+:    :+:            */
+/*   main.c                                             :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/10 22:10:43 by opelser       #+#    #+#                 */
-/*   Updated: 2023/02/21 22:47:21 by opelser       ########   odam.nl         */
+/*   Updated: 2023/02/27 17:01:10 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
+#include <unistd.h>
+#include <stdlib.h>
 
 int	ft_error(int code)
 {

@@ -6,13 +6,13 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/21 15:32:55 by opelser       #+#    #+#                 */
-/*   Updated: 2023/02/22 23:54:23 by opelser       ########   odam.nl         */
+/*   Updated: 2023/02/27 16:51:03 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-void	move(t_data *data)
+void	move_hook(t_data *data)
 {
 	if (mlx_is_key_down(data->mlx, MLX_KEY_RIGHT))
 		move_x(data, 0.02);
@@ -24,7 +24,21 @@ void	move(t_data *data)
 		move_y(data, 0.02);
 }
 
-void	extra_functionality(t_data *data)
+void	fractol_hook(t_data *data)
+{
+	if (mlx_is_key_down(data->mlx, MLX_KEY_1))
+	{
+		data->frac = 1;
+		make_fractal(data);
+	}
+	if (mlx_is_key_down(data->mlx, MLX_KEY_2))
+	{
+		data->frac = 2;
+		make_fractal(data);
+	}
+}
+
+void	functionality_hook(t_data *data)
 {
 	if (mlx_is_key_down(data->mlx, MLX_KEY_R))
 		init(data);
@@ -39,16 +53,6 @@ void	extra_functionality(t_data *data)
 			data->iter -= 25;
 		make_fractal(data);
 	}
-	if (mlx_is_key_down(data->mlx, MLX_KEY_1))
-	{
-		data->frac = 1;
-		make_fractal(data);
-	}
-	if (mlx_is_key_down(data->mlx, MLX_KEY_2))
-	{
-		data->frac = 2;
-		make_fractal(data);
-	}
 	if (mlx_is_key_down(data->mlx, MLX_KEY_C))
 	{
 		data->colour[0] += 5;
@@ -61,8 +65,9 @@ void	extra_functionality(t_data *data)
 void	captain_hook(mlx_key_data_t keydata, t_data *data)
 {
 	(void) keydata;
-	move(data);
-	extra_functionality(data);
+	fractol_hook(data);
+	move_hook(data);
+	functionality_hook(data);
 	if (mlx_is_key_down(data->mlx, MLX_KEY_P))
 	{
 		mlx_get_mouse_pos(data->mlx, &data->mouse[0], &data->mouse[1]);

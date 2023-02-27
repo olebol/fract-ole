@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/19 20:44:05 by opelser       #+#    #+#                 */
-/*   Updated: 2023/02/23 00:13:45 by opelser       ########   odam.nl         */
+/*   Updated: 2023/02/27 16:51:17 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,12 @@
 void	zoom(double xdelta, double ydelta, t_data *data)
 {
 	float	scale;
-	float	x;
-	float	y;
 
 	(void) xdelta;
 	if (ydelta > 0)
 		scale = 0.95;
 	else
 		scale = 1.05;
-
-	// This could be made into a function because we use it twice and maybe more later
-	mlx_get_mouse_pos(data->mlx, &data->mouse[0], &data->mouse[1]);
-	x = data->x[0]
-		+ ((float) data->mouse[0] / (float) WIDTH)
-		* (data->x[1] - data->x[0]);
-	y = data->y[0]
-		+ (float) data->mouse[1] / (float) HEIGHT
-		* (data->y[1] - data->y[0]);
-	// Somehow add this mouse location to the zooming formula underneath
-
 	data->x[0] *= scale;
 	data->x[1] *= scale;
 	data->y[0] *= scale;

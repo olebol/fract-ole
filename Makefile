@@ -10,7 +10,7 @@ MLX_DIR := $(INC_DIR)/MLX42
 CC := gcc
 INCL_WINDOWS := -ldl -lglfw -pthread -lm
 INCL := -lglfw3 -framework Cocoa -framework OpenGL -framework IOKit
-CFLAGS := -Wall -Werror -Wextra -Ofast
+CFLAGS := -Wall -Werror -Wextra
 
 # Includes
 HDR_FILES :=	fractol.h
