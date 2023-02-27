@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/21 15:32:55 by opelser       #+#    #+#                 */
-/*   Updated: 2023/02/27 16:51:03 by opelser       ########   odam.nl         */
+/*   Updated: 2023/02/27 17:46:09 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 void	move_hook(t_data *data)
 {
 	if (mlx_is_key_down(data->mlx, MLX_KEY_RIGHT))
-		move_x(data, 0.02);
-	if (mlx_is_key_down(data->mlx, MLX_KEY_LEFT))
 		move_x(data, -0.02);
+	if (mlx_is_key_down(data->mlx, MLX_KEY_LEFT))
+		move_x(data, 0.02);
 	if (mlx_is_key_down(data->mlx, MLX_KEY_UP))
 		move_y(data, -0.02);
 	if (mlx_is_key_down(data->mlx, MLX_KEY_DOWN))

@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/16 17:40:34 by opelser       #+#    #+#                 */
-/*   Updated: 2023/02/27 17:00:41 by opelser       ########   odam.nl         */
+/*   Updated: 2023/02/27 23:02:12 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,5 +56,6 @@ void		move_x(t_data *data, float amount);
 void		move_y(t_data *data, float amount);
 void		mandelbrot(t_data *data);
 void		julia(t_data *data);
+float		ft_atof(const char *str);
 
 #endif

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   fractol_utils.c                                    :+:    :+:            */
+/*   hook_functions.c                                   :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/19 20:44:05 by opelser       #+#    #+#                 */
-/*   Updated: 2023/02/27 16:51:17 by opelser       ########   odam.nl         */
+/*   Updated: 2023/02/27 23:06:31 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,34 +25,6 @@ void	zoom(double xdelta, double ydelta, t_data *data)
 	data->x[1] *= scale;
 	data->y[0] *= scale;
 	data->y[1] *= scale;
-	make_fractal(data);
-}
-
-int	make_fractal(t_data *data)
-{
-	if (data->frac == 1)
-		mandelbrot(data);
-	else if (data->frac == 2)
-		julia(data);
-	mlx_key_hook(data->mlx, (mlx_keyfunc) captain_hook, data);
-	mlx_scroll_hook(data->mlx, (mlx_scrollfunc) zoom, data);
-	return (0);
-}
-
-void	init(t_data *data)
-{
-	data->iter = MAX_ITER;
-	data->x[0] = -3;
-	data->x[1] = 2;
-	data->y[0] = 1.5;
-	data->y[1] = -1.5;
-	data->julia[0] = 0.150;
-	data->julia[1] = 0.635;
-	data->colour[0] = 2;
-	data->colour[1] = 4;
-	data->colour[2] = 6;
-	data->mouse[0] = 0;
-	data->mouse[1] = 0;
 	make_fractal(data);
 }
 

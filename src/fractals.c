@@ -6,28 +6,23 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/16 17:40:20 by opelser       #+#    #+#                 */
-/*   Updated: 2023/02/22 23:37:06 by opelser       ########   odam.nl         */
+/*   Updated: 2023/02/27 23:30:39 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-int	checkjulia(t_data *d, float x, float y)
+uint32_t	get_rgba(t_data *d, float iter)
 {
-	float	tmp;
-	int		iter;
+	uint32_t	colour;
+	const int	r = (d->colour[0] * iter);
+	const int	g = (d->colour[1] * iter);
+	const int	b = (d->colour[2] * iter);
+	const int	a = 255;
 
-	iter = 0;
-	while ((x * x + y * y) <= 4 && iter < d->iter)
-	{
-		tmp = (x * x) - (y * y) + d->julia[0];
-		y = 2 * (x * y) + d->julia[1];
-		x = tmp;
-		iter++;
-	}
-	return (iter);
+	colour = (r << 24) | (g << 16) | (b << 8) | a;
+	return (colour);
 }
-
 float	checkmandelbrot(float orig_x, float orig_y, int max_iter)
 {
 	float	x;
@@ -48,16 +43,20 @@ float	checkmandelbrot(float orig_x, float orig_y, int max_iter)
 	return (iter);
 }
 
-uint32_t	get_rgba(t_data *d, float iter)
+int	checkjulia(t_data *d, float x, float y)
 {
-	uint32_t	colour;
-	const int	r = (d->colour[0] * iter);
-	const int	g = (d->colour[1] * iter);
-	const int	b = (d->colour[2] * iter);
-	const int	a = 255;
+	float	tmp;
+	int		iter;
 
-	colour = (r << 24) | (g << 16) | (b << 8) | a;
-	return (colour);
+	iter = 0;
+	while ((x * x + y * y) <= 4 && iter < d->iter)
+	{
+		tmp = (x * x) - (y * y) + d->julia[0];
+		y = 2 * (x * y) + d->julia[1];
+		x = tmp;
+		iter++;
+	}
+	return (iter);
 }
 
 void	mandelbrot(t_data *d)
