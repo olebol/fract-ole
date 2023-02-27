@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/10 22:10:43 by opelser       #+#    #+#                 */
-/*   Updated: 2023/02/27 17:01:10 by opelser       ########   odam.nl         */
+/*   Updated: 2023/02/27 17:03:49 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	main(int argc, char **argv)
 	if (!data)
 		return (-1);
 	data->frac = argv[1][0] - 48;
-	data->mlx = mlx_init(WIDTH, HEIGHT, "fract-ol", true);
+	data->mlx = mlx_init(WIDTH, HEIGHT, "fractol", true);
 	if (!data->mlx)
 		return ((free(data), -1));
 	data->img = mlx_new_image(data->mlx, WIDTH, HEIGHT);
