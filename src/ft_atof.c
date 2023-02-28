@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/27 22:39:28 by opelser       #+#    #+#                 */
-/*   Updated: 2023/02/27 23:01:46 by opelser       ########   odam.nl         */
+/*   Updated: 2023/02/28 19:13:28 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ float	ft_atof(const char *str)
 		result = result * 10 + (str[i] - '0');
 		i++;
 	}
-	if (str[i] == '.' || str[i] == ',')
-		result += decimals(str, i +1);
+	if (str[i] == '.')
+		result += decimals(str, i + 1);
 	return (result * sign);
 }

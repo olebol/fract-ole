@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/10 22:10:43 by opelser       #+#    #+#                 */
-/*   Updated: 2023/02/27 23:27:14 by opelser       ########   odam.nl         */
+/*   Updated: 2023/02/28 20:19:34 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,10 @@ int	ft_error(int code)
 		write(1, RED, 8);
 		write(1, "Incorrect arguments\n\n", 22);
 		write(1, "List of available fractals:\n", 29);
-		write(1, "\t[1] Mandelbrot\n\t[2] Julia\n", 28);
+		write(1, "\t[1] Mandelbrot\n\t[2] Julia + [x] + [y]\n", 40);
 		write(1, RESET, 5);
-		return (-1);
 	}
-	return (-1);
+	return (EXIT_FAILURE);
 }
 void	init(t_data *data)
 {
@@ -61,30 +60,54 @@ void	param_to_julia(t_data *data, char **argv)
 	make_fractal(data);
 }
 
+#include <stdio.h>
+int	ft_valid_input(int argc, char **argv)
+{
+	int	i;
+
+	i = 0;
+	if ((argv[1][0] != '1' && argv[1][0] != '2') || argv[1][1] != '\0')
+		return (EXIT_FAILURE);
+	if (argc == 2 && argv[1][0] == '1')
+		return (EXIT_SUCCESS);
+	else if (argc == 4 && argv[1][0] == '1')
+		return (EXIT_FAILURE);
+	while (argv[2][i])
+	{
+		if ((!(argv[2][i] >= '0' && argv[2][i] <= '9') && argv[2][i] != '.'))
+			return (EXIT_FAILURE);
+		i++;
+	}
+	i = 0;
+	while (argv[3][i])
+	{
+		if ((!(argv[3][i] >= '0' && argv[3][i] <= '9') && argv[3][i] != '.'))
+			return (EXIT_FAILURE);
+		i++;
+	}
+	return (EXIT_SUCCESS);
+}
+
 int	main(int argc, char **argv)
 {
-	t_data		*data;
+	t_data	data;
 
-	if ((argc != 4 && argc != 2) || (argv[1][0] != '1' && argv[1][0] != '2'))
+	if ((argc != 2 && argc != 4) || ft_valid_input(argc, argv))
 		return (ft_error(0));
-	data = malloc(sizeof(t_data));
-	if (!data)
-		return (-1);
-	data->frac = argv[1][0] - 48;
-	data->mlx = mlx_init(WIDTH, HEIGHT, "fractol", true);
-	if (!data->mlx)
-		return ((free(data), -1));
-	data->img = mlx_new_image(data->mlx, WIDTH, HEIGHT);
-	if (!data->img)
-		return ((free(data), -1));
-	if (mlx_image_to_window(data->mlx, data->img, 0, 0) == -1)
-		return ((free(data), -1));
-	init(data);
+	data.frac = argv[1][0] - 48;
+	data.mlx = mlx_init(WIDTH, HEIGHT, "fractol", true);
+	if (!data.mlx)
+		return (EXIT_FAILURE);
+	data.img = mlx_new_image(data.mlx, WIDTH, HEIGHT);
+	if (!data.img)
+		return (EXIT_FAILURE);
+	if (mlx_image_to_window(data.mlx, data.img, 0, 0) == -1)
+		return (free(data.img), mlx_terminate(data.mlx), EXIT_FAILURE);
+	init(&data);
 	if (argc == 4)
-		param_to_julia(data, argv);
-	mlx_loop(data->mlx);
-	mlx_close_window(data->mlx);
-	mlx_terminate(data->mlx);
-	free(data);
+		param_to_julia(&data, argv);
+	mlx_loop(data.mlx);
+	mlx_close_window(data.mlx);
+	mlx_terminate(data.mlx);
 	return (0);
 }

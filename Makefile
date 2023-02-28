@@ -1,4 +1,4 @@
-NAME := fract-ol
+NAME := fractol
 
 # Directories
 INC_DIR := includes
@@ -10,7 +10,7 @@ MLX_DIR := $(INC_DIR)/MLX42
 CC := gcc
 INCL_WINDOWS := -ldl -lglfw -pthread -lm
 INCL := -lglfw3 -framework Cocoa -framework OpenGL -framework IOKit
-CFLAGS := -Wall -Werror -Wextra
+CFLAGS := -Wall -Werror -Wextra -g
 
 # Includes
 HDR_FILES :=	fractol.h
