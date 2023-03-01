@@ -17,10 +17,11 @@ HDR_FILES :=	fractol.h
 
 # Files
 SRC_FILES :=	main.c			\
-				ft_atof.c		\
-				fractals.c		\
+				input.c			\
+				utils.c			\
 				hook.c			\
-				hook_utils.c
+				hook_utils.c	\
+				fractals.c
 
 SRC := $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 OBJ := ${addprefix ${OBJ_DIR}/, ${SRC_FILES:.c=.o}}

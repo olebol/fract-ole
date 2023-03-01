@@ -6,24 +6,23 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/16 17:40:20 by opelser       #+#    #+#                 */
-/*   Updated: 2023/02/27 23:30:39 by opelser       ########   odam.nl         */
+/*   Updated: 2023/03/01 20:17:38 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-uint32_t	get_rgba(t_data *d, float iter)
+static uint32_t	get_rgba(t_data *d, float iter)
 {
-	uint32_t	colour;
-	const int	r = (d->colour[0] * iter);
-	const int	g = (d->colour[1] * iter);
-	const int	b = (d->colour[2] * iter);
+	const int	r = (d->colour[R] * iter);
+	const int	g = (d->colour[G] * iter);
+	const int	b = (d->colour[B] * iter);
 	const int	a = 255;
 
-	colour = (r << 24) | (g << 16) | (b << 8) | a;
-	return (colour);
+	return ((r << 24) | (g << 16) | (b << 8) | a);
 }
-float	checkmandelbrot(float orig_x, float orig_y, int max_iter)
+
+static float	checkmandelbrot(int max_iter, float orig_x, float orig_y)
 {
 	float	x;
 	float	y;
@@ -43,7 +42,7 @@ float	checkmandelbrot(float orig_x, float orig_y, int max_iter)
 	return (iter);
 }
 
-int	checkjulia(t_data *d, float x, float y)
+static int	checkjulia(t_data *d, float x, float y)
 {
 	float	tmp;
 	int		iter;
@@ -51,8 +50,8 @@ int	checkjulia(t_data *d, float x, float y)
 	iter = 0;
 	while ((x * x + y * y) <= 4 && iter < d->iter)
 	{
-		tmp = (x * x) - (y * y) + d->julia[0];
-		y = 2 * (x * y) + d->julia[1];
+		tmp = (x * x) - (y * y) + d->julia[X];
+		y = 2 * (x * y) + d->julia[Y];
 		x = tmp;
 		iter++;
 	}
@@ -71,11 +70,11 @@ void	mandelbrot(t_data *d)
 	y = 0;
 	while (x < WIDTH)
 	{
-		scaled[0] = d->x[0] + (x / WIDTH) * (d->x[1] - d->x[0]);
+		scaled[X] = d->x[LEFT] + (x / WIDTH) * (d->x[RIGHT] - d->x[LEFT]);
 		while (y < HEIGHT)
 		{
-			scaled[1] = d->y[0] + (y / HEIGHT) * (d->y[1] - d->y[0]);
-			iter = checkmandelbrot(scaled[0], scaled[1], d->iter);
+			scaled[Y] = d->y[UP] + (y / HEIGHT) * (d->y[DOWN] - d->y[UP]);
+			iter = checkmandelbrot(d->iter, scaled[X], scaled[Y]);
 			if (iter == d->iter)
 				colour = 0xFF;
 			else
@@ -100,11 +99,11 @@ void	julia(t_data *d)
 	y = 0;
 	while (x < WIDTH)
 	{
-		scaled[0] = d->x[0] + (x / WIDTH) * (d->x[1] - d->x[0]);
+		scaled[X] = d->x[LEFT] + (x / WIDTH) * (d->x[RIGHT] - d->x[LEFT]);
 		while (y < HEIGHT)
 		{
-			scaled[1] = d->y[0] + (y / HEIGHT) * (d->y[1] - d->y[0]);
-			iter = checkjulia(d, scaled[0], scaled[1]);
+			scaled[Y] = d->y[UP] + (y / HEIGHT) * (d->y[DOWN] - d->y[UP]);
+			iter = checkjulia(d, scaled[X], scaled[Y]);
 			if (iter == d->iter)
 				colour = 0xFF;
 			else

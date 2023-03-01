@@ -6,13 +6,13 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/21 15:32:55 by opelser       #+#    #+#                 */
-/*   Updated: 2023/02/28 18:42:24 by opelser       ########   odam.nl         */
+/*   Updated: 2023/03/01 22:13:35 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-void	move_hook(t_data *data)
+static void	move_hook(t_data *data)
 {
 	if (mlx_is_key_down(data->mlx, MLX_KEY_RIGHT))
 		move_x(data, -0.02);
@@ -24,21 +24,21 @@ void	move_hook(t_data *data)
 		move_y(data, 0.02);
 }
 
-void	fractol_hook(t_data *data)
+static void	fractol_hook(t_data *data)
 {
 	if (mlx_is_key_down(data->mlx, MLX_KEY_1))
 	{
-		data->frac = 1;
+		data->frac = MANDELBROT;
 		make_fractal(data);
 	}
 	if (mlx_is_key_down(data->mlx, MLX_KEY_2))
 	{
-		data->frac = 2;
+		data->frac = JULIA;
 		make_fractal(data);
 	}
 }
 
-void	functionality_hook(t_data *data)
+static void	functionality_hook(t_data *data)
 {
 	if (mlx_is_key_down(data->mlx, MLX_KEY_R))
 		init(data);
@@ -70,13 +70,13 @@ void	captain_hook(mlx_key_data_t keydata, t_data *data)
 	functionality_hook(data);
 	if (mlx_is_key_down(data->mlx, MLX_KEY_P))
 	{
-		mlx_get_mouse_pos(data->mlx, &data->mouse[0], &data->mouse[1]);
-		data->julia[0] = data->x[0]
-			+ ((float) data->mouse[0] / (float) WIDTH)
-			* (data->x[1] - data->x[0]);
-		data->julia[1] = data->y[0]
-			+ (float) data->mouse[1] / (float) HEIGHT
-			* (data->y[1] - data->y[0]);
+		mlx_get_mouse_pos(data->mlx, &data->mouse[X], &data->mouse[Y]);
+		data->julia[Y] = data->x[LEFT]
+			+ ((float) data->mouse[X] / (float) WIDTH)
+			* (data->x[RIGHT] - data->x[LEFT]);
+		data->julia[Y] = data->y[UP]
+			+ (float) data->mouse[Y] / (float) HEIGHT
+			* (data->y[DOWN] - data->y[UP]);
 		make_fractal(data);
 	}
 	if (mlx_is_key_down(data->mlx, MLX_KEY_ESCAPE))
