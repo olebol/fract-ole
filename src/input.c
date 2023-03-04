@@ -29,9 +29,6 @@ static int	validate_coords(char *str)
 
 int	validate_input(int argc, char **argv)
 {
-	int	i;
-
-	i = 0;
 	if ((argv[1][0] != '1' && argv[1][0] != '2') || argv[1][1] != '\0')
 		return (EXIT_FAILURE);
 	if (argc == 2 && argv[1][0] == '1')
