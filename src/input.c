@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/27 22:39:28 by opelser       #+#    #+#                 */
-/*   Updated: 2023/03/01 22:20:24 by opelser       ########   odam.nl         */
+/*   Updated: 2023/05/02 21:05:47 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	validate_coords(char *str)
 	while (str[i])
 	{
 		if ((!(str[i] >= '0' && str[i] <= '9')
-			&& str[i] != '.' && str[0] != '-'))
+				&& str[i] != '.' && str[0] != '-'))
 			return (EXIT_FAILURE);
 		i++;
 	}
@@ -57,7 +57,7 @@ static float	decimals(const char *str, int i)
 {
 	float	factor;
 	float	result;
-	
+
 	result = 0;
 	factor = 0.1;
 	while ((str[i] >= '0' && str[i] <= '9'))

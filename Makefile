@@ -2,15 +2,16 @@ NAME := fractol
 
 # Directories
 INC_DIR := includes
+LIB_DIR := lib
 OBJ_DIR := obj
 SRC_DIR := src
-MLX_DIR := $(INC_DIR)/MLX42
+MLX_DIR := $(LIB_DIR)/MLX42
 
 # Compiler flags
 CC := gcc
 INCL_WINDOWS := -ldl -lglfw -pthread -lm
 INCL := -lglfw3 -framework Cocoa -framework OpenGL -framework IOKit
-CFLAGS := -Wall -Werror -Wextra -g
+CFLAGS := -Wall -Werror -Wextra -o3 -Ofast
 
 # Includes
 HDR_FILES :=	fractol.h
@@ -58,6 +59,7 @@ open: $(NAME)
 	@echo "$(GREEN)$(BOLD)Window closed$(RESET)"
 
 norminette:
+	@norminette $(HDR)
 	@norminette $(SRC)
 
 clean:

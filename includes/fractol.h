@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/16 17:40:34 by opelser       #+#    #+#                 */
-/*   Updated: 2023/03/01 22:19:25 by opelser       ########   odam.nl         */
+/*   Updated: 2023/05/02 21:09:37 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 # define X 0
 # define Y 1
 
-# include "MLX42/include/MLX42/MLX42.h"
+# include "../lib/MLX42/include/MLX42/MLX42.h"
 # include <stddef.h>
 # include <unistd.h>
 # include <stdlib.h>
@@ -84,6 +84,5 @@ void		move_y(t_data *data, float amount);
 // ~ fractals.c
 void		mandelbrot(t_data *data);
 void		julia(t_data *data);
-
 
 #endif
