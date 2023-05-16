@@ -6,7 +6,7 @@
 /*   By: opelser <opelser@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/21 15:32:55 by opelser       #+#    #+#                 */
-/*   Updated: 2023/05/02 20:58:17 by opelser       ########   odam.nl         */
+/*   Updated: 2023/05/16 18:53:27 by opelser       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 static void	move_hook(t_data *data)
 {
 	if (mlx_is_key_down(data->mlx, MLX_KEY_RIGHT))
-		move_x(data, -0.02);
-	else if (mlx_is_key_down(data->mlx, MLX_KEY_LEFT))
 		move_x(data, 0.02);
+	else if (mlx_is_key_down(data->mlx, MLX_KEY_LEFT))
+		move_x(data, -0.02);
 	else if (mlx_is_key_down(data->mlx, MLX_KEY_UP))
-		move_y(data, -0.02);
-	else if (mlx_is_key_down(data->mlx, MLX_KEY_DOWN))
 		move_y(data, 0.02);
+	else if (mlx_is_key_down(data->mlx, MLX_KEY_DOWN))
+		move_y(data, -0.02);
 }
 
 static void	fractol_hook(t_data *data)
