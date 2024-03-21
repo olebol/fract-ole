@@ -1,18 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   input.c                                            :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: opelser <opelser@student.codam.nl>           +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/02/27 22:39:28 by opelser       #+#    #+#                 */
-/*   Updated: 2023/05/02 21:05:47 by opelser       ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   input.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: opelser <opelser@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/27 22:39:28 by opelser           #+#    #+#             */
+/*   Updated: 2024/03/21 16:23:13 by opelser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fractol.h"
+#include "../include/fractol.h"
+#include "../include/errors.h"
+#include "libft.h"
 
-static int	validate_coords(char *str)
+static bool	validate_coords(char *str)
 {
 	int		i;
 
@@ -24,73 +26,35 @@ static int	validate_coords(char *str)
 			return (EXIT_FAILURE);
 		i++;
 	}
-	return (EXIT_SUCCESS);
+
+	if (i == 0)
+		return (false);
+
+	return (true);
 }
 
-int	validate_input(int argc, char **argv)
+void		validate_input(int argc, char **argv)
 {
+	if (argc != 2 && argc != 4)
+		error(E_ARGC);
+
+	if (ft_strlen(argv[1]) != 1)
+		error(E_FRACTAL);
+
 	if ((argv[1][0] != '1' && argv[1][0] != '2') || argv[1][1] != '\0')
-		return (EXIT_FAILURE);
-	if (argc == 2 && argv[1][0] == '1')
-		return (EXIT_SUCCESS);
-	else if (argc == 4 && argv[1][0] == '1')
-		return (EXIT_FAILURE);
-	if (validate_coords(argv[2]) == 1 || validate_coords(argv[3]) == 1)
-		return (EXIT_FAILURE);
-	return (EXIT_SUCCESS);
-}
+		error(E_FRACTAL);
 
-int	ft_error(int code)
-{
-	if (code == 0)
+	if (argc == 2)
 	{
-		write(1, RED, 8);
-		write(1, "Incorrect arguments\n\n", 22);
-		write(1, "List of available fractals:\n", 29);
-		write(1, "\t[1] Mandelbrot\n\t[2] Julia + [x] + [y]\n", 40);
-		write(1, RESET, 5);
+		if (argv[1][0] == '2')
+			error(E_FRACTAL);
 	}
-	return (EXIT_FAILURE);
-}
-
-static float	decimals(const char *str, int i)
-{
-	float	factor;
-	float	result;
-
-	result = 0;
-	factor = 0.1;
-	while ((str[i] >= '0' && str[i] <= '9'))
+	else
 	{
-		result += (str[i] - '0') * factor;
-		factor *= 0.1;
-		i++;
-	}
-	return (result);
-}
+		if (argv[1][0] == '1')
+			error(E_FRACTAL);
 
-float	ft_atof(const char *str)
-{
-	int		sign;
-	int		i;
-	float	result;
-
-	sign = 1;
-	i = 0;
-	result = 0;
-	while (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))
-		i++;
-	if (str[0] == '-')
-	{
-		sign = -1;
-		i++;
+		if (validate_coords(argv[2]) == 1 || validate_coords(argv[3]) == 1)
+			error(E_COORDS);
 	}
-	while ((str[i] >= '0' && str[i] <= '9'))
-	{
-		result = result * 10 + (str[i] - '0');
-		i++;
-	}
-	if (str[i] == '.')
-		result += decimals(str, i + 1);
-	return (result * sign);
 }

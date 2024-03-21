@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   hook.c                                             :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: opelser <opelser@student.codam.nl>           +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/01/21 15:32:55 by opelser       #+#    #+#                 */
-/*   Updated: 2023/05/16 18:53:27 by opelser       ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   hook.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: opelser <opelser@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/21 15:32:55 by opelser           #+#    #+#             */
+/*   Updated: 2024/03/21 16:12:23 by opelser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,59 +15,29 @@
 static void	move_hook(t_data *data)
 {
 	if (mlx_is_key_down(data->mlx, MLX_KEY_RIGHT))
-		move_x(data, 0.02);
+	{
+		data->x[0] += 0.2;
+		data->x[1] += 0.2;
+	}
 	else if (mlx_is_key_down(data->mlx, MLX_KEY_LEFT))
-		move_x(data, -0.02);
+	{
+		data->x[0] -= 0.2;
+		data->x[1] -= 0.2;
+	}
 	else if (mlx_is_key_down(data->mlx, MLX_KEY_UP))
-		move_y(data, 0.02);
+	{
+		data->y[0] += 0.2;
+		data->y[1] += 0.2;
+	}
 	else if (mlx_is_key_down(data->mlx, MLX_KEY_DOWN))
-		move_y(data, -0.02);
-}
-
-static void	fractol_hook(t_data *data)
-{
-	if (mlx_is_key_down(data->mlx, MLX_KEY_1))
 	{
-		data->frac = MANDELBROT;
-		make_fractal(data);
-	}
-	else if (mlx_is_key_down(data->mlx, MLX_KEY_2))
-	{
-		data->frac = JULIA;
-		make_fractal(data);
+		data->y[0] -= 0.2;
+		data->y[1] -= 0.2;
 	}
 }
 
-static void	functionality_hook(t_data *data)
+static void	julia_mouse_hook(t_data *data)
 {
-	if (mlx_is_key_down(data->mlx, MLX_KEY_R))
-		init(data);
-	else if (mlx_is_key_down(data->mlx, MLX_KEY_EQUAL))
-	{
-		data->iter += 25;
-		make_fractal(data);
-	}
-	else if (mlx_is_key_down(data->mlx, MLX_KEY_MINUS))
-	{
-		if (data->iter >= 25)
-			data->iter -= 25;
-		make_fractal(data);
-	}
-	else if (mlx_is_key_down(data->mlx, MLX_KEY_C))
-	{
-		data->colour[0] += 5;
-		data->colour[1] += 7;
-		data->colour[2] += 2;
-		make_fractal(data);
-	}
-}
-
-void	captain_hook(mlx_key_data_t keydata, t_data *data)
-{
-	(void) keydata;
-	fractol_hook(data);
-	move_hook(data);
-	functionality_hook(data);
 	if (mlx_is_key_down(data->mlx, MLX_KEY_SPACE))
 	{
 		mlx_get_mouse_pos(data->mlx, &data->mouse[X], &data->mouse[Y]);
@@ -77,8 +47,75 @@ void	captain_hook(mlx_key_data_t keydata, t_data *data)
 		data->julia[Y] = data->y[UP]
 			+ (float) data->mouse[Y] / (float) HEIGHT
 			* (data->y[DOWN] - data->y[UP]);
-		make_fractal(data);
 	}
-	else if (mlx_is_key_down(data->mlx, MLX_KEY_ESCAPE))
+}
+
+static void	functionality_hook(t_data *data)
+{
+	if (mlx_is_key_down(data->mlx, MLX_KEY_R))
+	{
+		data->x[0] = -3;
+		data->x[1] = 2;
+		data->y[0] = 1.5;
+		data->y[1] = -1.5;
+	}
+	else if (mlx_is_key_down(data->mlx, MLX_KEY_EQUAL))
+	{
+		data->iter += 25;
+	}
+	else if (mlx_is_key_down(data->mlx, MLX_KEY_MINUS))
+	{
+		if (data->iter >= 25)
+			data->iter -= 25;
+	}
+	else if (mlx_is_key_down(data->mlx, MLX_KEY_C))
+	{
+		data->colour[0] += 5;
+		data->colour[1] += 7;
+		data->colour[2] += 2;
+	}
+}
+
+void	zoom(double xdelta, double ydelta, void *context)
+{
+	t_data	*data;
+	float	scale;
+
+	data = (t_data *) context;
+	(void) xdelta;
+	if (ydelta > 0)
+		scale = 0.95;
+	else
+		scale = 1.05;
+	data->x[0] *= scale;
+	data->x[1] *= scale;
+	data->y[0] *= scale;
+	data->y[1] *= scale;
+}
+
+void	captain_hook(void *context)
+{
+	t_data		*data;
+
+	data = (t_data *) context;
+
+	move_hook(data);
+	functionality_hook(data);
+	julia_mouse_hook(data);
+
+	// Change fractal
+	if (mlx_is_key_down(data->mlx, MLX_KEY_1))
+		data->frac = MANDELBROT;
+	else if (mlx_is_key_down(data->mlx, MLX_KEY_2))
+		data->frac = JULIA;
+
+	// Exit
+	if (mlx_is_key_down(data->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(data->mlx);
+
+	// Draw fractal
+	if (data->frac == MANDELBROT)
+		mandelbrot(data);
+	else if (data->frac == JULIA)
+		julia(data);
 }
